@@ -1,0 +1,70 @@
+begin work;
+create table persona(
+dni integer primary key,
+apellido varchar(30),
+nombre varchar(30),
+fecnac date,
+estadoCivil varchar(10),
+constraint CH_Persona_EstadoCivil check (estadoCivil in
+('SOLTERO','CASADO','VIUDO','DIVORCIADO'))
+    
+);
+create table auditoria(
+operacion varchar(30),
+origen varchar(30),
+fechadecambio date,
+valoranterior text,
+valoractual text
+);
+
+
+CREATE OR REPLACE FUNCTION Func_au() RETURNS TRIGGER AS $$
+DECLARE
+valornuevo text;
+valorviejo text;
+origen varchar;
+usuario varchar;
+BEGIN
+  if TG_OP ='INSERT'then
+    
+    valornuevo=row(new.*);
+    origen:=TG_TABLE_NAME;
+    usuario:=user;
+    insert into auditoria("operacion","origen","fechadecambio","valoranterior","valoractual")
+    values(TG_OP,origen,now(),null, valornuevo);
+    
+  else if
+    TG_OP='UPDATE'then
+      
+      valornuevo:=row(new.*);
+      valorviejo:=row(old.*);
+      origen=TG_TABLE_NAME;
+      usuario=user;
+      insert into auditoria("operacion","origen","fechadecambio","valoranterior","valoractual")
+      values(TG_OP,origen,now(),valorviejo, valornuevo);
+      
+  else if TG_OP = 'DELETE'then
+   
+    origen=TG_TABLE_NAME;
+    valorviejo:=row(old.*);
+    usuario:=user;
+    insert into auditoria("operacion","origen","fechadecambio","valoranterior","valoractual")
+    values(TG_OP,origen,now(),valorviejo, null);
+  
+  end if;
+  end if;
+  end if;
+  return null;
+END; $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_2 BEFORE INSERT OR UPDATE OR DELETE ON persona
+FOR EACH ROW EXECUTE PROCEDURE func_au();
+
+insert into "persona"("dni","apellido","nombre","fecnac","estadocivil")
+values(1124,'Perez ','Juan','2000-04-17','Soltero');
+
+
+select * from auditoria
+update persona SET apellido='' where dni=11131
+delete from persona where dni=11131
+commit

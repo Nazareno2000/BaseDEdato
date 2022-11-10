@@ -1,0 +1,80 @@
+/* Punto a */
+explain select idinventario from ejemplar where idinventario  not in (select idinventario from prestamo)
+
+/* Punto B*/
+select isbn from categoriaLibro 
+where idcategoria = (select idcategoria from categoria where categoria.categoria ='Marketing') 
+and isbn in (select isbn from pedidoinsatisfecho)
+
+/* Punto C */
+create view CONCEPCION as 
+explain select dni from usuario u, localidad d
+where  d.localidad = 'CONCEPCION DEL URUGUAY' and u.idlocalidad = d.idlocalidad 
+
+create index Usuaruiox on usuario (idlocalidad)
+create index Localidadx1 on localidad (localidad)
+
+
+
+
+create view REPETIDO as 
+(select dni from prestamo where dni in (select * from CONCEPCION) and fechaPrestamo between  
+ '1988-01-01'and '1991-12-31')
+
+SELECT dni FROM REPETIDO 
+     GROUP BY dni 
+     HAVING COUNT(*)>1;
+    
+/* Punto d*/
+/*create view SUDA*/ as select idinventario from ejemplar where isbn in 
+(select isbn from libro where editorial ='Sudamericana')
+Select * from SUDA
+
+create view DNI_PRESTAMO as (select dni from prestamo where idinventario in (select idinventario from ejemplar where isbn in 
+(select isbn from libro where editorial ='Sudamericana')))
+select dni from DNI_PRESTAMO where dni in ( select dni from participa)
+
+select idProyecto 
+from participa 
+where dni in(select dni from DNI_PRESTAMO where dni in ( select dni from participa))
+
+select idDepartamento from proyecto where idProyecto in(select idProyecto 
+from participa 
+where dni in(select dni from DNI_PRESTAMO where dni in ( select dni from participa))
+)
+
+select departamento from departamento where idDepartamento in (select idDepartamento from proyecto where idProyecto in(select idProyecto 
+from participa 
+where dni in(select dni from DNI_PRESTAMO where dni in ( select dni from participa))
+))
+
+/* punto e El título de aquellos libros que hayan sido retirados tanto por docentes que dictan una
+determinada materia como por alumnos que cursan la misma.*/
+
+select a.dni, dicta.idMateria,c.isbn,b.dni, cursa.idMateria ,d.isbn, libro.titulo from prestamo a , prestamo b , dicta , cursa, ejemplar c , ejemplar d, libro
+where a.dni<>b.dni and a.dni = dicta.dni and b.dni = cursa.dni
+and dicta.idMateria = cursa.idMateria and a.idinventario = c.idinventario and b.idinventario = d.idinventario
+and c.isbn = d.isbn and libro.isbn = d.isbn
+
+/*f) El nombre de los usuarios a los que se les ha vencido el plazo para devolver algún libro, y que
+con posterioridad a la fecha de vencimiento hayan retirado algún otro. */
+
+
+select distinct nombre from prestamo a , prestamo b,usuario where a.dni = usuario.dni and b.dni = a.dni and (a.fechadevolucion > a.fechalimite or a.fechadevolucion = null) and b.fechaprestamo > a.fechalimite
+
+/*g) Los docentes que dictan alguna materia en todas las carreras a las que dicha materia pertenece.*/
+
+select a.dni from dicta a , dicta b where a.idcarrera <> b.idcarrera and a.idmateria = b.idmateria  
+
+/* h Aquellos libros para los que existe más de un ejemplar, tal que al menos dos de esos
+ejemplares se hayan encontrado prestados en forma simultánea en un determinado momento.
+Para simplificar, considerar solamente aquellos préstamos en los que el libro ya haya sido
+devuelto. */
+
+
+
+select c.isbn from prestamo a , prestamo b, ejemplar c , ejemplar d  
+where b.fechaprestamo>a.fechaprestamo and b.fechaprestamo <a.fechadevolucion and c.idinventario = a.idinventario and d.idinventario = b.idinventario
+
+
+

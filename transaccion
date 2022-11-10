@@ -1,0 +1,31 @@
+create table Cliente(
+id serial primary key,
+Nombre varchar(30) UNIQUE NOT NULL,
+Saldo float
+);
+insert into Cliente(Nombre,Saldo)
+values('Nazareno',1000);
+insert into Cliente(Nombre,Saldo)
+values('Enzo',2000);
+insert into Cliente(Nombre,Saldo)
+values('Thomas',3000)
+
+create or replace procedure actualizar(cli int, monto float)
+language plpgsql as $$
+declare
+    parcial float;
+begin
+    parcial= (select Saldo from Cliente where id=cli);
+    parcial = (parcial -monto);
+    if parcial >0 then
+    
+        update Cliente set Saldo = Saldo - monto where id=cli;
+        commit;
+       else
+         raise notice 'saldo negativo';
+        end if;
+end;
+$$;
+select * from Cliente
+call actualizar(2,100);
+select actualizar()

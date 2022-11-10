@@ -1,0 +1,8 @@
+select * from libro where titulo like '%R_'
+select * from libro where titulo like 'H%'
+select paginas from libro
+  where cast(paginas as varchar) like '%2';
+select * from libro where titulo ilike 'HA%'
+select * from libro where titulo not like 'R%'
+
+

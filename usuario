@@ -1,0 +1,46 @@
+begin work;
+CREATE USER User1 PASSWORD '111';
+CREATE USER User2 PASSWORD '222';
+
+create table tabla1(
+npodpto serial primary key,
+nombdepto  varchar(30) UNIQUE NOT NULL
+);
+
+create table tabla2(
+    id serial primary key,
+    nombre  varchar(30) NOT NULL,
+    apellido varchar(30)NOT NULL,
+    sueldo numeric(9,2) check(sueldo>0),
+    npodpto integer,
+    CONSTRAINT fk_npodpto FOREIGN KEY (npodpto) REFERENCES tabla1 (npodpto) on update cascade on delete restrict);
+
+insert into "tabla1"("npodpto","nombdepto")
+values(111,'Central');
+insert into "tabla1"("npodpto","nombdepto")
+values(112,'Oeste');
+insert into "tabla1"("npodpto","nombdepto")
+values(113,'Sur')
+
+insert into "tabla2"("id","nombre","apellido","sueldo")
+values(18,'Jamaica','Bajocero','1000');
+insert into "tabla2"("id","nombre","apellido","sueldo")
+values(01,'Daniel','Sumager','2000');
+insert into "tabla2"("id","nombre","apellido","sueldo")
+values(19,'Danny','Maguire','3000')
+
+/*estas acciones con usuario root*/
+update tabla1 SET npodpto='222' where nombdepto='Central';
+delete from tabla1 where nombdepto='Sur';
+
+/*Estas acciones se realizan con usuuario2*/
+update tabla2 SET Id='20' where nombre='Jamaica';
+delete from tabla2 where nombre='Danny';
+
+GRANT ALL PRIVILEGES ON tabla1,tabla2 TO postgres;
+GRANT insert, select ON tabla1 to User1;
+GRANT ALL PRIVILEGES ON tabla2 TO User2;
+GRANT Select ON tabla1 TO User2;
+
+
+commit;

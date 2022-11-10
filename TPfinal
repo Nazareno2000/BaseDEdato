@@ -1,0 +1,154 @@
+create domain t_dni as varchar(8)
+check (value ~ '^\d{8}$');
+create domain val as varchar(5) check (value ~ '^\d{1,5}$');
+
+
+CREATE TABLE Usuario (
+    Nombre varchar NOT NULL ,
+    Apellido varchar NOT NULL ,
+    DNI t_dni NOT NULL unique primary key,
+    Email varchar NOT NULL unique,
+    Domcilio varchar NOT NULL,
+    Telefono numeric NOT NULL  unique
+    EsAdmin Boolean NOT NULL 
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+
+CREATE TABLE Ciudad (
+    Cod_postal int NOT NULL primary key,
+    Nombre varchar NOT NULL,
+    DNI t_dni NOT NULL unique,
+    constraint FK_Usuario foreign key(DNI) 
+    references Usuario(DNI)
+    
+);
+
+CREATE TABLE Provincia (
+    id_provinica int NOT NULL primary key,
+    Nombre varchar NOT NULL,
+    Cod_postal int NOT NULL,
+    constraint FK_Ciudad foreign key(Cod_postal) 
+    references Ciudad(Cod_postal)
+);
+
+CREATE TABLE Carrito (
+    id_carrito serial NOT NULL primary key,
+    DNI t_dni NOT NULL unique,
+    constraint FK_Usuario foreign key(DNI) 
+    references Usuario(DNI)
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+
+CREATE TABLE Envio (
+    id_envio serial NOT NULL primary key,
+    Direccion varchar NOT NULL,
+    Nro_pedido serial NOT NULL unique,
+    Cod_postal int NOT NULL,
+    id_carrito serial NOT NULL,
+    constraint FK_ciudad foreign key (Cod_postal) references Ciudad (Cod_postal),
+    constraint FK_carrito  foreign key (id_carrito) references Carrito (id_carrito)
+    ON DELETE restrict
+    ON UPDATE cascade
+    
+    
+);
+
+CREATE TABLE Factura(
+    id_factura serial NOT NULL primary key,
+    fecha varchar NOT NULL,
+    monto float NOT NULL,
+    DNI t_dni NOT NULL,
+    constraint FK_usuario foreign key (DNI) references Usuario(t_dni)
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+
+CREATE TABLE Cupon (
+    Codigo int NOT NULL primary key,
+    Cantidad_descuento float NOT NULL,
+    id_factura serial NOT NULL,
+    constraint FK_Factura foreign key (id_factura) references Factura(id_factura)
+    
+);
+
+CREATE TABLE linea_factura (
+    id_linea_factura int NOT NULL primary key,
+    ISBN varchar NOT NULL,
+    Cantidad int NOT NULL,
+    Precio_Unitario float NOT NULL,
+    id_factura serial NOT NULL,
+    constraint FK_Factura foreign key(id_factura) references Factura(id_factura),
+    constraint FK_Libro foreign key (ISBN) references Libro(ISBN)
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+
+CREATE linea_carrito (
+    id_linea_carrito int NOT NULL primary key,
+    Cantidad int NOT NULL,
+    id_carrito int NOT NULL,
+    ISBN varchar NOT NULL,
+    constraint FK_Carrito foreign key (id_carrito) references Carrito(id_carrito),
+    constraint FK_Libro foreign key (ISBN) references Libro (ISBN)
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+
+CREATE TABLE Libro (
+    Isbn varchar NOT NULL primary key,
+    Nombre varchar NOT NULL,
+    Precio_venta float NOT NULL,
+    Stock int NOT NULL,
+    Stock_min int NOT NULL,
+    id_valoracion int NOT NULL,
+    id_genero varchar NOT NULL,
+    id_oferta float NOT NULL,
+    DNI_Autor t_dni NOT NULL,
+    id_editorial int NOT NULL,
+    id_linea_de_carrito int NOT NULL
+    constraint FK_Linea_Carrito foreign key (id_linea_carrito) references linea_carrito(id_linea_carrito),
+    constraint FK_Valoracion foreign key (id_valoracion) references Valoracion(id_valoracion),
+    constraint FK_Genero foreign key (id_genero) references Genero(id_genero),
+    constraint FK_Oferta foreign key (id_oferta) references Oferta (id_oferta)
+    constraint FK_Autor foreign key ( DNI_Autor) references Autor( DNI_Autor),
+    constraint FK_Editorial foreign key (id_editorial) references Editorial (id_editorial)
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+CREATE TABLE Valoracion (
+    id_valoracion int NOT NULL primary key,
+    Cantidad_estrellas val NOT NULL,
+    ISBN varchar NOT NULL,
+    constraint FK_Libro foreign key (ISBN) references Libro(ISBN)
+);
+
+CREATE TABLE Genero (
+    id_genero int NOT NULL primary key,
+    Nombre varchar NOT NULL,
+    constraint FK_Libro foreign key (ISBN) references Libro(ISBN)
+);
+
+CREATE TABLE Oferta(
+    id_oferta int NOT NULL primary key,
+    Descuento float NOT NULL,
+    Fecha varchar NOT NULL,
+    constraint FK_Libro foreign key (ISBN) references Libro(ISBN)
+);
+
+CREATE TABLE Autor (
+    DNI_autor t_dni NOT NULL primary key ,
+    Nombre varchar NOT NULL,
+    Apellido varchar NOT NULL,
+    constraint FK_Libro foreign key (ISBN) references Libro(ISBN)
+    ON DELETE restrict
+    ON UPDATE cascade
+);
+CREATE TABLE Editorial (
+    id_editorial int NOT NULL primary key,
+    Nombre varchar NOT NULL,
+    constraint FK_Libro foreign key (ISBN) references Libro(ISBN)
+    ON DELETE restrict
+    ON UPDATE cascade
+);

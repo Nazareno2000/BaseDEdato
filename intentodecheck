@@ -1,0 +1,2 @@
+select U.DNI ,l.ISBN from Usuario2 U , Factura1 F , linea_factura1 li, Libro2 l
+where F.id_factura = li.id_factura and li.isbn = l.isbn and U.DNI = F.DNI
