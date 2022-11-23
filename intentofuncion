@@ -1,0 +1,50 @@
+CREATE OR REPLACE FUNCTION CarritoDelCliente2 (doc int) 
+    RETURNS TABLE (
+        isbn VARCHAR,
+        cantidad INT
+) 
+AS $$
+BEGIN
+    RETURN QUERY SELECT
+        usuario_carrito.isbn,usuario_carrito.cantidad
+       
+    FROM
+        usuario_carrito
+    WHERE
+       cast(usuario_carrito.dni as int ) = doc ;
+END; $$ 
+
+LANGUAGE 'plpgsql';
+
+select * from CarritoDelCliente2(42477160)
+
+
+CREATE OR REPLACE FUNCTION DevolverInfoFactura (doc int) 
+    RETURNS TABLE (
+        fecha VARCHAR,
+        monto INT,
+        Isbn varchar,
+        cantida int,
+        precio_unitario float,
+        id_factura int,
+        dni t_dni
+) 
+AS $$
+BEGIN
+    RETURN QUERY SELECT
+        Factura1.fecha,Factura1.monto,Factura1.dni,
+        linea_factura2.isbn,linea_factura2.cantidad,
+        linea_factura2.precio_unitario,linea_factura2.id_factura
+       
+    FROM
+        Factura1,linea_factura2
+    WHERE
+      cast(Factura1.dni as int) = doc and Factura1.id_factura = linea_factura2.id_factura;
+END; $$ 
+
+LANGUAGE 'plpgsql';
+
+select * from DevolverInfoFactura(42477160)
+
+
+

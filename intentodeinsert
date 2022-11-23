@@ -1,30 +1,104 @@
 INSERT INTO Provincia2(id_provincia,Nombre)
-VALUES (1,'Entre Rios');
+VALUES(1,'Entre Rios')(2,'Misiones'),(3,'Corrientes'),(4,'Buenos Aires'),(5,'Santa fe'),(6,'San Luis'),
+(7,'Cordoba'),(8,'Catamarca'),(9,'San Juan'),
+(10,'Jujuy'),(11,'Salta'),(12,'Chubut'),
+(13,'Tucuman'),(14,'Neuquen'),(15,'Santa Cruz');
 
-INSERT INTO Ciudad2(Cod_postal,Nombre,id_provincia)
-VALUES(3260,'Concepcion del Uruguay',1);
+INSERT INTO Ciudad3(Cod_postal,Nombre,id_provincia)
+VALUES(3260,'Concepcion del Uruguay',1),(3261,'Posadas',2),(3262,'Corrientes',3),
+(3263,'Caba',4),(3264,'Rosario',5),(3265,'Merlo',6),
+(3266,'Rio Tercero',7),(3267,'San Fernardo del valle de catamarcar',8),(3268,'San Juan',9),
+(3269,'Tilcara',10),(3270,'Salta',11),(3271,'Rawson',12),
+(3272,'San Miguel de Tucuman',13),(3273,'Neuquen',14),(3274,'Rio Gallegos',15);
 
 INSERT INTO Usuario2 (Nombre,Apellido,DNI,Email,Domcilio,Telefono,EsAdmin,Cod_postal) 
-VALUES ('Nazareno','Blanchet',42477160,'naza@hotmail.com','14 de julio',3442,True,3260);
+VALUES ('Nazareno','Blanchet',42477160,'naza@hotmail.com','14 de julio',3442,True,3260),
+('Enzo','Bua',42477161,'Enzo@hotmail.com','15 de julio',3443,False,3261),
+('Alejandro','Valdez',42477162,'Ale@hotmail.com','16 de julio',3444,False,3262),
+('Arnulfo','Gomez',42477163,'Ar@hotmail.com','17 de julio',3445,False,3263),
+('Bernardo','Jark',42477164,'Ber@hotmail.com','18 de julio',3446,False,3264),
+('Carlos','Bilardo',42477165,'Carlos@hotmail.com','19 de julio',3447,False,3265),
+('Fermina','Guidui',42477166,'Fer@hotmail.com','20 de julio',3448,False,3266),
+('José','De San Martin',42477167,'Jose@hotmail.com','122 de julio',3478,True,3267),
+('Luis','Majul',42477168,'Luis@hotmail.com','144 de julio',3449,False,3268),
+('Leonel','Messi',42477169,'D10s@hotmail.com','147 de julio',3450,False,3269),
+('Martin','Palermo',42477170,'Martinnn@hotmail.com','1444 de julio',34451,False,3270),
+('Javier','Zanneti',42477171,'Javi@hotmail.com','1411 de julio',3452,False,3271),
+('Kun','Aguero',42477173,'Kuni@hotmail.com','1400 de julio',3453,False,3272),
+('Roman','Riquelme',42477174,'Roman@hotmail.com','194 de julio',3454,False,3273);
+('Romero','Chiquito',42477172,'Romero@hotmail.com','1940 de julio',3455,False,3274),
+('Romerir','Chiquito',43355678,'Romero10@hotmail.com','19410 de julio',3459,False,3274),
+('Romerira','Chiquito',43355679,'Romero110@hotmail.com','194101 de julio',3489,False,3274),
+('Romerirar','Chiquito',43355689,'Romero1110@hotmail.com','194101 de julio',3499,False,3274);
 
 INSERT INTO Factura1(id_factura,fecha,monto,DNI)
-VALUES(1,14072000,500,42477160);
-
-INSERT INTO linea_factura1(id_linea_factura,ISBN,Cantidad,Precio_Unitario,id_factura) 
-VALUES (11,123,30,25,1);
-
-
-INSERT INTO Libro2 (Isbn, Nombre,Precio_venta,Stock,Stock_min,id_genero,id_oferta,DNI_Autor,id_editoriaL)
-VALUES(123,'Tom',125,10,8,1,33,43267890,23);
+VALUES(1,14072000,500,42477160),(2,15072000,600,42477161),(3,16072000,700,42477162),(4,20072000,900,42477163),
+(5,21072000,1500,42477164),(6,10072000,2500,42477165),(7,18072000,3500,42477166),(8,19072000,4500,42477167),
+(9,30072000,5500,42477168),(10,29072000,6500,42477169),(11,06072000,5500,42477170),(12,05072000,32500,42477171),
+(13,01072000,12500,42477172),(14,02072000,19500,42477173),(15,03072000,4500,42477174);
 
 INSERT INTO Genero(id_genero,Nombre)
-VALUES(1,'Romantico');
+VALUES(1,'Romantico'),(2,'Fantasia'),(3,'Novela'),(4,'Terror'),(5,'Misterio');
 
-INSERT INTO Oferta(id_oferta,descuento,fecha)
-VALUES(33,10,14072010);
+INSERT INTO Oferta2(id_oferta,descuento)
+VALUES(33,10),(34,10),(35,10),(36,10),(37,10),
+(38,10),(39,10),(40,10),(41,10),(42,10),(43,10),
+(44,10),(45,10),(46,10),(47,10);
 
 INSERT INTO Autor(DNI_autor,Nombre,Apellido)
-VALUES(43267890,'Carlos','Sanchez');
+VALUES(43267890,'Carlos','Maire'),(43267891,'Carlos','Miguel'),(43267892,'Florencia','Sanchez'),
+(43267893,'Miriam','Sanchez'),(43267894,'Ester','Lujan'),(43267895,'Jorge','Sanchez'),
+(43267896,'Esteban','Wilson'),(43267897,'Maike','Sanchez'),(43267898,'Jimmy','Sanchez');
 
 INSERT INTO Editorial(id_editorial,Nombre)
-VALUES (23,'Morango');
+VALUES (23,'Morango'),(24,'Dinarl'),(25,'Carto'),(26,'Luke'),(27,'Nest'),(28,'Niron'),(29,'Rayos');
+
+
+INSERT INTO Libro3 (Isbn, Nombre,Precio_venta,Stock,Stock_min,id_genero,id_oferta,DNI_Autor,id_editoriaL)
+VALUES(123,'Tom',125,10,8,1,33,43267890,23),(124,'Tom 2',250,11,8,5,34,43267890,27),
+(125,'Trueno',25,12,8,2,35,43267891,24),(126,'Tom y jerry',253,13,8,4,36,43267891,23),
+(127,'Torth',215,14,8,1,37,43267892,26),(128,'Milwakee',215,14,8,5,38,43267892,26),
+(129,'Minkera',205,16,8,4,39,43267894,25),(130,'High',295,17,8,1,40,43267893,25),
+(131,'Kirka',190,19,8,5,41,43267895,29),(132,'El muro',265,20,8,3,42,43267894,28),
+(133,'Lausr',285,20,8,3,43,43267896,24),(134,'El presidente',2115,180,8,4,44,43267895,23),
+(135,'Mar',2005,120,8,2,45,43267897,28),(136,'Yugantar',2225,110,8,1,46,43267896,26),
+(137,'Universo',2995,108,8,1,47,43267898,23);
+
+INSERT INTO linea_factura2(id_linea_factura,ISBN,Cantidad,Precio_Unitario,id_factura) 
+VALUES (11,123,30,125,1),(111,124,3,250,2),(112,125,35,25,3),(110,126,309,253,4),(113,127,3078,215,5),
+(114,128,9,215,6),(115,129,10,205,7),(116,130,110,295,8),(117,131,190,235,9),(119,132,330,265,10),
+(1120,133,340,285,11),(1121,134,370,2115,12),(1122,135,320,2005,13),(1123,136,310,2225,14),(1124,137,310,2995,15);
+
+
+
+INSERT INTO Carrito4 (id_carrito,DNI)
+VALUES(1,42477160),(2,42477161),(3,42477162),(4,42477163),(5,42477164),(6,42477165),(7,42477166),
+(8,42477167),(9,42477168),(10,42477169),(11,42477170),(12,42477171),(13,42477172),(14,42477173),(15,42477174);
+
+
+INSERT INTO linea_carrito3(id_linea_carrito,Cantidad,id_carrito,ISBN)
+VALUES(1,20,1,123),(2,20,2,123),(3,20,3,124),(4,20,4,125),(5,20,5,126),(6,20,6,127),(7,20,7,128),(8,20,8,123),
+(9,20,9,124),(10,20,10,125),(11,20,11,127),(12,20,12,123),(13,20,13,128),(14,20,14,129),(15,20,15,129);
+
+INSERT INTO Valoracion2(id_valoracion,Cantidad_estrellas,ISBN,DNI)
+VALUES(1,3,123,42477161),(2,1,124,42477162),(3,4,125,42477160),(4,1,123,42477161),(5,5,124,42477163),
+(6,3,128,42477164),
+(7,1,129,42477165),
+(8,2,125,42477166),(9,4,124,42477167),(10,5,126,42477165),
+(11,1,123,42477161),(12,1,129,42477166),(13,1,130,42477168),(14,1,132,42477169);
+
+
+INSERT INTO Cupon(Codigo,Cantidad_descuento,id_factura)
+VALUES (12,10,1),(13,10,2),(14,10,3),(15,10,4),(16,10,5),(17,10,6),(18,10,7),(19,10,8),(20,10,9),(21,10,10),
+(22,10,11),(23,10,12),(24,10,13),(25,10,14),(26,10,15);
+
+
+
+INSERT INTO Envio1(id_envio,Direccion,Nro_pedido,Cod_postal,id_carrito)
+VALUES (1,'14 jul1io 273',3,3260,1),(2,'14 jul1io 273',4,3260,2),(3,'14 jul1io 273',5,3260,3),
+(4,'14 jul1io 273',6,3260,4),(5,'14 jul1io 273',7,3260,5),(6,'14 jul1io 273',8,3260,6),
+(7,'14 jul1io 273',9,3260,7),(8,'14 jul1io 273',10,3260,8),(9,'14 jul1io 273',11,3260,9),
+(10,'14 jul1io 273',12,3260,10),(11,'14 jul1io 273',13,3260,11),(12,'14 jul1io 273',14,3260,12),
+(13,'14 jul1io 273',15,3260,13),(14,'14 jul1io 273',16,3260,14),(15,'14 jul1io 273',17,3260,15);
+
+

@@ -1,27 +1,35 @@
-CREATE OR REPLACE FUNCTION DenegarValoracion() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION DenegarValoracion2() RETURNS TRIGGER AS
 $DenegarValoraciono$
 BEGIN
-        if Usuario2.DNI not in (usuario_isbn)then
+        if NEW.DNI not in (select dni from usuario_isbn1 where isbn=NEW.isbn)then
         RAISE EXCEPTION 'no puede valor sin antes comprar';
-        else if
-        INSERT INTO Valoracion(id_valoracion,Cantidad_estrellas,ISBN) values (1,3,123)
+        end if;
+
  RETURN NEW;
 END;
 $DenegarValoraciono$ LANGUAGE plpgsql;
 
+CREATE TRIGGER Valoracion17 BEFORE INSERT OR UPDATE ON Valoracion2
+FOR EACH ROW EXECUTE PROCEDURE DenegarValoracion2();
+
+INSERT INTO Valoracion2(id_valoracion,Cantidad_estrellas,ISBN,DNI)
+values(23,3,123,42477160);
+
+
 CREATE OR REPLACE FUNCTION crearCarrito() RETURNS TRIGGER AS
 $crearCarritoCuandoSeCreaUsuario$
-BEGIN    if Usuario2.DNI not in (usuario2)then
+BEGIN    if NEW.DNI not in (select dni from Usuario2)then
          RAISE EXCEPTION 'no puede tener carrito sin antes registrarte';
-        INSERT INTO carrito (fecha) VALUES (DEFAULT);
+         END IF;
  RETURN NEW;
 END;
 $crearCarritoCuandoSeCreaUsuario$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION crearCarrito() RETURNS TRIGGER AS
-$crearCarritoCuandoSeCreaUsuario$
-BEGIN
-        INSERT INTO carrito (fecha) VALUES (DEFAULT);
- RETURN NEW;
-END;
-$crearCarritoCuandoSeCreaUsuario$ LANGUAGE plpgsql;
+CREATE TRIGGER creaciondecarrito1 BEFORE INSERT OR UPDATE ON Carrito4
+FOR EACH ROW EXECUTE PROCEDURE crearCarrito();
+
+
+INSERT INTO Carrito4 (id_carrito,DNI)
+VALUES(334,43355688);
+
+/***/

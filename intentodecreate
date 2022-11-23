@@ -10,7 +10,7 @@ CREATE TABLE Provincia2 (
   
 );
 
-CREATE TABLE Ciudad2 (
+CREATE TABLE Ciudad3 (
     Cod_postal int NOT NULL primary key,
     Nombre varchar NOT NULL,
     id_provincia int NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE Usuario2 (
 );
 
 
-CREATE TABLE Carrito (
+CREATE TABLE Carrito4 (
     id_carrito serial NOT NULL primary key,
     DNI t_dni NOT NULL unique,
     constraint FK_Usuario foreign key(DNI) 
@@ -44,7 +44,7 @@ CREATE TABLE Carrito (
    
 );
 
-CREATE TABLE Envio (
+CREATE TABLE Envio2 (
     id_envio serial NOT NULL primary key,
     Direccion varchar NOT NULL,
     Nro_pedido serial NOT NULL unique,
@@ -53,13 +53,13 @@ CREATE TABLE Envio (
     constraint FK_ciudad foreign key (Cod_postal) references Ciudad2(Cod_postal) 
     ON DELETE RESTRICT ON UPDATE CASCADE,
     
-    constraint FK_carrito  foreign key (id_carrito) references Carrito (id_carrito)
+    constraint FK_carrito  foreign key (id_carrito) references Carrito4 (id_carrito)
     ON DELETE RESTRICT ON UPDATE CASCADE
    
 );
 
-CREATE TABLE Factura1(
-    id_factura serial NOT NULL primary key,
+CREATE TABLE Factura2(
+    id_factura int NOT NULL primary key,
     fecha varchar NOT NULL,
     monto float NOT NULL,
     DNI t_dni NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE Cupon (
     ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE Libro2 (
+CREATE TABLE Libro3 (
     Isbn varchar NOT NULL primary key,
     Nombre varchar NOT NULL,
     Precio_venta float NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE Libro2 (
     id_editorial int NOT NULL,
     constraint FK_Genero foreign key (id_genero) references Genero(id_genero) 
     ON DELETE RESTRICT ON UPDATE CASCADE,
-    constraint FK_Oferta foreign key (id_oferta) references Oferta (id_oferta)
+    constraint FK_Oferta foreign key (id_oferta) references Oferta2 (id_oferta)
     ON DELETE RESTRICT ON UPDATE CASCADE,
     constraint FK_Autor foreign key ( DNI_Autor) references Autor( DNI_Autor)
     ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -100,10 +100,10 @@ CREATE TABLE Genero (
     Nombre varchar NOT NULL
     
 );
-CREATE TABLE Oferta(
+CREATE TABLE Oferta2(
     id_oferta int NOT NULL primary key,
-    Descuento float NOT NULL,
-    Fecha varchar NOT NULL
+    Descuento float NOT NULL
+    
     
 );
 
@@ -120,31 +120,34 @@ CREATE TABLE Editorial (
     
 );
 
-CREATE TABLE linea_factura1 (
+CREATE TABLE linea_factura3(
     id_linea_factura int NOT NULL primary key,
     ISBN varchar NOT NULL,
     Cantidad int NOT NULL,
     Precio_Unitario float NOT NULL,
-    id_factura serial NOT NULL,
+    id_factura int NOT NULL,
     constraint FK_Factura foreign key(id_factura) references Factura1(id_factura) 
     ON DELETE RESTRICT ON UPDATE CASCADE,
-    constraint FK_Libro foreign key (ISBN) references Libro2(ISBN) ON DELETE RESTRICT ON UPDATE CASCADE
+    constraint FK_Libro foreign key (ISBN) references Libro3(ISBN) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE linea_carrito1 (
+CREATE TABLE linea_carrito3 (
     id_linea_carrito int NOT NULL primary key,
     Cantidad int NOT NULL,
     id_carrito int NOT NULL,
     ISBN varchar NOT NULL,
-    constraint FK_Carrito foreign key (id_carrito) references Carrito(id_carrito),
-    constraint FK_Libro foreign key (ISBN) references Libro2 (ISBN)
+    constraint FK_Carrito foreign key (id_carrito) references Carrito3(id_carrito),
+    constraint FK_Libro foreign key (ISBN) references Libro3 (ISBN)
     
 );
 
-CREATE TABLE Valoracion (
+CREATE TABLE Valoracion2(
     id_valoracion int NOT NULL primary key,
     Cantidad_estrellas val NOT NULL,
     ISBN varchar NOT NULL,
-    constraint FK_Libro foreign key (ISBN) references Libro2(ISBN) ON DELETE RESTRICT ON UPDATE CASCADE
+    DNI t_dni  NOT NULL,
+    constraint FK_Libro foreign key (ISBN) references Libro3(ISBN) ON DELETE RESTRICT ON UPDATE CASCADE,
+    constraint FK_Usuario foreign key (DNI) references Usuario2(DNI) ON DELETE RESTRICT ON UPDATE CASCADE
+    
     
 );
