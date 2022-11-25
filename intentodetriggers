@@ -32,4 +32,19 @@ FOR EACH ROW EXECUTE PROCEDURE crearCarrito();
 INSERT INTO Carrito4 (id_carrito,DNI)
 VALUES(334,43355688);
 
+
+CREATE OR REPLACE FUNCTION DenegarValoracion2() RETURNS TRIGGER AS
+$DenegarValoraciono$
+BEGIN
+        if NEW.DNI not in (select dni from usuario_isbn1 where isbn=NEW.isbn)then
+        RAISE EXCEPTION 'no puede valor sin antes comprar';
+        end if;
+
+ RETURN NEW;
+END;
+$DenegarValoraciono$ LANGUAGE plpgsql;
+
+CREATE TRIGGER Valoracion17 BEFORE INSERT OR UPDATE ON Valoracion2
+FOR EACH ROW EXECUTE PROCEDURE DenegarValoracion2();
+
 /***/

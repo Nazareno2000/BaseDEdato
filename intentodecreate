@@ -136,6 +136,7 @@ CREATE TABLE linea_carrito3 (
     Cantidad int NOT NULL,
     id_carrito int NOT NULL,
     ISBN varchar NOT NULL,
+    precio_unitario float NOT NULL,
     constraint FK_Carrito foreign key (id_carrito) references Carrito3(id_carrito),
     constraint FK_Libro foreign key (ISBN) references Libro3 (ISBN)
     
