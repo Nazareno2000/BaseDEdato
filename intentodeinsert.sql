@@ -1,5 +1,5 @@
 INSERT INTO Provincia2(id_provincia,Nombre)
-VALUES(1,'Entre Rios'),(2,'Misiones'),(3,'Corrientes'),(4,'Buenos Aires'),(5,'Santa fe'),(6,'San Luis'),
+VALUES(1,'Entre Rios')(2,'Misiones'),(3,'Corrientes'),(4,'Buenos Aires'),(5,'Santa fe'),(6,'San Luis'),
 (7,'Cordoba'),(8,'Catamarca'),(9,'San Juan'),
 (10,'Jujuy'),(11,'Salta'),(12,'Chubut'),
 (13,'Tucuman'),(14,'Neuquen'),(15,'Santa Cruz');
@@ -64,8 +64,10 @@ VALUES(123,'Tom',125,10,8,1,33,43267890,23),(124,'Tom 2',250,11,8,5,34,43267890,
 (135,'Mar',2005,120,8,2,45,43267897,28),(136,'Yugantar',2225,110,8,1,46,43267896,26),
 (137,'Universo',2995,108,8,1,47,43267898,23);
 
-INSERT INTO linea_factura9(id_linea_factura,ISBN,Cantidad,Precio_Unitario,id_factura,monto) 
-VALUES (11,123,NULL,NULL,1,NULL),(111,124,NULL,NULL,2,NULL);
+INSERT INTO linea_factura3(id_linea_factura,ISBN,Cantidad,Precio_Unitario,id_factura) 
+VALUES (11,123,30,125,1),(111,124,3,250,2),(112,125,35,25,3),(110,126,309,253,4),(113,127,3078,215,5),
+(114,128,9,215,6),(115,129,10,205,7),(116,130,110,295,8),(117,131,190,235,9),(119,132,330,265,10),
+(1120,133,340,285,11),(1121,134,370,2115,12),(1122,135,320,2005,13),(1123,136,310,2225,14),(1124,137,310,2995,15);
 
 
 
@@ -74,8 +76,8 @@ VALUES(1,42477160),(2,42477161),(3,42477162),(4,42477163),(5,42477164),(6,424771
 (8,42477167),(9,42477168),(10,42477169),(11,42477170),(12,42477171),(13,42477172),(14,42477173),(15,42477174);
 
 
-INSERT INTO linea_carrito9(id_linea_carrito,Cantidad,id_carrito,ISBN,precio_unitario,monto)
-VALUES(1,20,1,125,NULL,NULL),(2,20,2,126,NULL,NULL);
+INSERT INTO linea_carrito4(id_linea_carrito,Cantidad,id_carrito,ISBN,precio_unitario,monto)
+VALUES(1,20,1,123,2,0),(2,20,2,123,3,0);
 
 INSERT INTO Valoracion2(id_valoracion,Cantidad_estrellas,ISBN,DNI)
 VALUES(1,3,123,42477161),(2,1,124,42477162),(3,4,125,42477160),(4,1,123,42477161),(5,5,124,42477163),

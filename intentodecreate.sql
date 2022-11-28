@@ -120,25 +120,24 @@ CREATE TABLE Editorial (
     
 );
 
-CREATE TABLE linea_factura9(
+CREATE TABLE linea_factura3(
     id_linea_factura int NOT NULL primary key,
     ISBN varchar NOT NULL,
-    Cantidad int,
-    Precio_Unitario float ,
+    Cantidad int NOT NULL,
+    Precio_Unitario float NOT NULL,
     id_factura int NOT NULL,
-    monto float,
     constraint FK_Factura foreign key(id_factura) references Factura1(id_factura) 
     ON DELETE RESTRICT ON UPDATE CASCADE,
     constraint FK_Libro foreign key (ISBN) references Libro3(ISBN) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE linea_carrito9 (
+CREATE TABLE linea_carrito4 (
     id_linea_carrito int NOT NULL primary key,
     Cantidad int NOT NULL,
     id_carrito int NOT NULL,
     ISBN varchar NOT NULL,
-    precio_unitario float ,
-    monto float ,
+    precio_unitario float NOT NULL,
+    monto float NOT NULL,
     constraint FK_Carrito foreign key (id_carrito) references Carrito3(id_carrito),
     constraint FK_Libro foreign key (ISBN) references Libro3 (ISBN)
     

@@ -32,28 +32,27 @@ FOR EACH ROW EXECUTE PROCEDURE crearCarrito();
 INSERT INTO Carrito4 (id_carrito,DNI)
 VALUES(334,43355688);
 
-CREATE OR REPLACE FUNCTION LineadefacturaTolal() RETURNS TRIGGER AS
-$LineadefacturaTolal$
+
+CREATE OR REPLACE FUNCTION FacturaTolal() RETURNS TRIGGER AS
+$FacturaTolal$
 DECLARE 
 cantidadx int;
 precio_unitariox float;
 monto int;
-
 BEGIN
-       	precio_unitariox=(select Precio_venta from libro3 where isbn=new.isbn);
-        cantidadx= (select cantidad from linea_carrito9 where id_linea_carrito=new.id_linea_carrito);
-        new.cantidad=cantidadx;
-	new.precio_unitario = precio_unitariox;
-	new.monto = new.precio_unitario * new.cantidad;
-	return new; 
+cantidadx =(select linea_factura3.Cantidad from linea_factura3);
+precio_unitariox =(select linea_factura3.Precio_Unitario from linea_factura3);
+
+        monto =(cantidadx * cast(precio_unitariox as int));
+        UPDATE factura2 SET factura2.monto = monto WHERE idfactura = xxxx; 
+        
+
+ RETURN NEW;
 END;
+$FacturaTolal$ LANGUAGE plpgsql;
 
-
-$LineadefacturaTolal$ LANGUAGE plpgsql;
-
-CREATE TRIGGER lineafactura19 BEFORE INSERT OR UPDATE ON linea_factura9
-FOR EACH ROW EXECUTE PROCEDURE LineadefacturaTolal();
-
+CREATE TRIGGER Facturacion2 AFTER INSERT OR UPDATE ON linea_factura3
+FOR EACH ROW EXECUTE PROCEDURE FacturaTolal();
 
 
 CREATE OR REPLACE FUNCTION LineadecarritoTolal() RETURNS TRIGGER AS
@@ -62,17 +61,19 @@ DECLARE
 cantidadx int;
 precio_unitariox float;
 monto int;
-
 BEGIN
-       	precio_unitariox=(select Precio_venta from libro3 where isbn=new.isbn);
-	new.precio_unitario = precio_unitariox;
-	new.monto = new.precio_unitario * new.cantidad;
-	return new; 
+cantidadx =(select linea_carrito4.Cantidad from linea_factura3),
+precio_unitariox =(select linea_carrito4.Precio_Unitario from linea_factura3),
+
+        monto =(cantidadx * cast(precio_unitariox as int));
+        UPDATE linea_carrito4 SET linea_carrito4.monto = monto; 
+        
+
+ RETURN NEW;
 END;
-
-
 $LineadecarritoTolal$ LANGUAGE plpgsql;
 
-CREATE TRIGGER lineacarrito7 BEFORE INSERT OR UPDATE ON linea_carrito9
+CREATE TRIGGER Facturacion1 AFTER INSERT OR UPDATE ON linea_carrito4
 FOR EACH ROW EXECUTE PROCEDURE LineadecarritoTolal();
+
 /***/
